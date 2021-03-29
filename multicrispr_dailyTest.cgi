@@ -255,8 +255,10 @@ while(my $query = new CGI::Fast) {
 		#&WriteToFileWithTimeStamp($log, "cmdProtDist: $cmdProtDist");
 		
 		# this will send results ready email to user 
-		my $cmdEmail = "cd /bioseq/multicrispr/;perl sendLastEmail.pl --toEmail $email_to_address --id $jobId --subject 'CRISPys daily test results';";
-		print QSUB_SH "$cmdEmail\n";
+		#my $cmdEmail = "cd /bioseq/multicrispr/;perl sendLastEmail.pl --toEmail $email_to_address --id $jobId --subject 'CRISPys daily test results';";
+		#print QSUB_SH "$cmdEmail\n";
+		my $cmdWriteDailyTest = "cd /bioseq/multicrispr/python;python write_daily_test.py ".multicrispr_CONSTS_and_Functions::DAILY_TESTS_DIR." $jobId;";
+		print QSUB_SH "$cmdWriteDailyTest\n";
 		
 		close (QSUB_SH);
 		
@@ -276,7 +278,7 @@ while(my $query = new CGI::Fast) {
 		&WriteToFileWithTimeStamp($log, "qsubJobNum: $qsubJobNum");
 		
 		# send 1st email to user
-		`perl sendFirstEmail.pl email_to_address $jobId`;
+		#`perl sendFirstEmail.pl email_to_address $jobId`;
 		
 		exit 0;
 	}
